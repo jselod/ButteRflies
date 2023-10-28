@@ -12,16 +12,13 @@ The paraphyletic clade of butterflies and moths forms the order Lepidoptera, des
 
 <center>![Figure 1: Butterfly Anatomy](anatomybutterflymoth.jpeg)</center>
 
-Hindwings and forewings may not play the same role in flight. A study of powered flight without the hindwing revealed that lepidopterans could still fly without their hindwings, although not as fast and with less maneuverability [@Jantzen2008]. In fact, these authors concluded that the hindwings may contribute to survival, indicating the selection pressures between forewing and hindwing could differ. For example, since flight is conserved with the loss of the expanded hindwing, there may be a stabilizing selection pressure from the demands of flight. On the other hand, the hindwing may be under selection pressures related to predator avoidance (maneuverability and zigzaging behaviors) or even sexual selection. 
+Hindwings and forewings may not play the same role in flight. A study of powered flight without the hindwing revealed that lepidopterans could still fly without their hindwings, although not as fast and with less maneuverability [@Jantzen2008]. In fact, these authors concluded that the hindwings may contribute to survival, indicating the selection pressures between forewing and hindwing could differ. For example, since flight is conserved with the loss of the expanded hindwing, there may be a stabilizing selection pressure from the demands of flight. On the other hand, the hindwing may be under selection pressures related to predator avoidance (maneuverability and zigzaging behaviors) or even sexual selection.
 
 Our study examines this relationship between wings. We seek to answer whether the rates of wing-shape evolution are different between the hind- and forewing, and if so, by how much. Additional questions include: Are hind- and forewing shapes correlated? What inferences can we make based on shape correlations and flight control?
 
 ## Methods: **NEED TO SUPPLEMENT**
 
-A morphometric approach was used to conduct the project. Images of various species and specimens from Lepidoptera were obtained from Dr. Kenaley's work. Using the analysis program FIJI, outlines of both forewings and hindwings were traced digitally and fitted with a spline to produced lists of xy_coordinates for each specimen and wingtype. 
-Shape analysis was outline-based. A generalized Procrustes transformation was used to superimpose and scale each object (outline) to minimize variability from arbitrary size differences. Next,  Elliptical Fourier Analysis (EFA) was used to describe the shapes (outlines) in the dataset, followed by Principal Components Analysis to find the major types of variance in the data.
-Comparative analysis was conducted from the first two principal components for each wing type, annotated with species information. The 'non-censored test' method from @OMeara2006 was used in order to calculate the likelihood of evolutionary rates, using an estimation of of an ancestral trait under Brownian motion, across the entire phylogenetic tree of Lepidoptera (also obtained from Dr. Kenaley).
-Finally, shape evolution correlation was analyzed using phylogenetic independent contrasts (PIC).
+A morphometric approach was used to conduct the project. Images of various species and specimens from Lepidoptera were obtained from Dr. Kenaley's work. Using the analysis program FIJI, outlines of both forewings and hindwings were traced digitally and fitted with a spline to produced lists of xy_coordinates for each specimen and wingtype. Shape analysis was outline-based. A generalized Procrustes transformation was used to superimpose and scale each object (outline) to minimize variability from arbitrary size differences. Next, Elliptical Fourier Analysis (EFA) was used to describe the shapes (outlines) in the dataset, followed by Principal Components Analysis to find the major types of variance in the data. Comparative analysis was conducted from the first two principal components for each wing type, annotated with species information. The 'non-censored test' method from @OMeara2006 was used in order to calculate the likelihood of evolutionary rates, using an estimation of of an ancestral trait under Brownian motion, across the entire phylogenetic tree of Lepidoptera (also obtained from Dr. Kenaley). Finally, shape evolution correlation was analyzed using phylogenetic independent contrasts (PIC).
 
 ## Results:
 
@@ -77,10 +74,15 @@ hind.pca <- hindwings %>%
   fgProcrustes() %>%
   efourier(norm = FALSE) %>%
   PCA()
-
-plot_PCA(fore.pca, title="Forewing PCA")
-plot_PCA(hind.pca, title="Hindwing PCA")
 ```
+
+```{r pca plots, echo=FALSE, warning=FALSE, fig.width=6, fig.asp=0.618, message=FALSE, out.width="50%", fig.align="default"}
+plot_PCA(fore.pca, title="Figure 1: Forewing PCA")
+plot_PCA(hind.pca, title="Figure 2: Hindwing PCA")
+```
+Figure 1 graphically represents the results of principal components analysis for the forewings. The first principal component describes approximately 61.8% of the variance across the forewing data. This suggests variance due to wing shape: as the horizontal axis progress from left to right, the rounded triangular appearance of the wing thins out to a flattened elliptical shape. The second principal component describes approximately 13.8% of the variance for the forewing data. This corresponds more to variance in size rather than shape: moving down to up across the vertical axis does not result in a full loss of shape, but a larger 'version' of the forewing. This first PCA accounts for a combined 75.6% of variance in the forewing data.
+
+Figure 2: 
 
 ```{r comparative analysis prep, warning=FALSE, message=FALSE}
 #remember question 1: do forewings and hindwings vary in their evolutionary rates?
@@ -100,9 +102,10 @@ lep.spp$identifier #yup ew
 out.data <- tibble(xy.file = basename(names(outs))) %>%
   mutate(identifier = gsub("XY_|_hindwing|_forewing|.txt|.csv","",xy.file)) %>%
   left_join(lep.spp)
+
 #now we can add species info to our PCA data since PC scores are stored under variable x:
 head(hind.pca$x,1)
-hind.pca2 <- tibble(xy.file = basename(rownames(hind.pca$x)),PC1=hind.pca$x[,1], PC2=hind.pca$x[,2]) %>%
+hind.pca2 <- tibble(xy.file = basename(rownames(hind.pca$x)), PC1=hind.pca$x[,1], PC2=hind.pca$x[,2]) %>%
   left_join(out.data)
 fore.pca2 <- tibble(xy.file = basename(rownames(fore.pca$x)), PC1=fore.pca$x[,1], PC2=fore.pca$x[,2]) %>%
   left_join(out.data) 
@@ -195,6 +198,13 @@ summary(lm(hind~fore,PC1.pic)) #rsquared value is 0.4442, and there is significa
 
 ## Author Contributions:
 
--   Jaan: FIJI Image Outlining R code setup
+-   Jaan: 
++ FIJI Image Outlining 
++ R code setup, including analysis
++ Introduction
++ Methods
++ Results
++ Bibliography
+
 
 ## References:

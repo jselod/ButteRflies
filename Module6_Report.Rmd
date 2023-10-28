@@ -12,9 +12,16 @@ The paraphyletic clade of butterflies and moths forms the order Lepidoptera, des
 
 <center>![Figure 1: Butterfly Anatomy](anatomybutterflymoth.jpeg)</center>
 
-Are the rates of wing-shape evolution different between the hind- and forewing? By how much? Are hind- and forewing shapes correlated? What inferences can you make based on shape correlations and flight control?
+Hindwings and forewings may not play the same role in flight. A study of powered flight without the hindwing revealed that lepidopterans could still fly without their hindwings, although not as fast and with less maneuverability [@Jantzen2008]. In fact, these authors concluded that the hindwings may contribute to survival, indicating the selection pressures between forewing and hindwing could differ. For example, since flight is conserved with the loss of the expanded hindwing, there may be a stabilizing selection pressure from the demands of flight. On the other hand, the hindwing may be under selection pressures related to predator avoidance (maneuverability and zigzaging behaviors) or even sexual selection. 
+
+Our study questions this relationship between wings. We seek to answer whether the rates of wing-shape evolution are different between the hind- and forewing, and if so, by how much. Additional questions include: Are hind- and forewing shapes correlated? What inferences can we make based on shape correlations and flight control?
 
 ## Methods:
+
+The project used a morphometric approach. First, images of varying species and specimens from Lepidoptera were obtained from Dr. Kenaley's work. Using the analysis program FIJI, outlines of both forewings and hindwings were traced digitally and fitted with a spline to produced lists of xy_coordinates for each specimen and wingtype. 
+Shape analysis was outline-based. A generalized Procrustes transformation was used to superimpose and scale each object (outline) to minimize variability from arbitrary size differences. Next,  Elliptical Fourier Analysis (EFA) was used to describe the shapes (outlines) in the dataset, followed by Principal Components Analysis to find the [...]
+Comparative analysis [...]
+A phylogenetic tree was also 
 
 ## Results:
 

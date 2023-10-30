@@ -31,28 +31,29 @@ library(phytools)
 ```
 
 ```{r shape analysis, warning=FALSE, message=FALSE}
-f <- list.files("class_out_data_f23", pattern = ".txt", full.names = TRUE)
-out <- read_delim(f[1], delim = "\t") %>%
+f <- list.files("class_out_data_f23", full.names = TRUE)
+out <- read_csv(f[1]) %>%
   as.matrix()
+
 out %>%
   list() %>%
   Out() %>%
   coo_flipx()
 
-out.df <- vroom::vroom(f, id = "filename")
+out.df <- vroom::vroom(f, id = "filename", progress = FALSE)
 out.df <- out.df %>% #need to add wing info
   mutate(wing = gsub("XY_.+_(hindwing|forewing)\\..+", "\\1", basename(filename))) %>%
   na.omit()
-out.l <- sapply(f, function(x) out.df %>% filter(filename==x) %>% select(X,Y) %>% as.matrix())
+out.l <- sapply(f, function(x) out.df %>% filter(filename == x) %>% select(X,Y) %>% as.matrix())
 wings <- gsub("XY_.+_(hindwing|forewing)\\..+", "\\1", basename(names(out.l)))
 
 outs <- out.l %>% #store wing info in outlines!
-  Out(fac = list(wing=wings)) %>%
+  Out(fac = list(wing = wings)) %>%
   coo_flipx()
 forewings <- outs %>%
-  filter(wing=="forewing")
+  filter(wing == "forewing")
 hindwings <- outs %>%
-  filter(wing=="hindwing")
+  filter(wing == "hindwing")
 
 #use Procrustes alignment to not have variance due to simple size issue then EFA and PCA
 fore.min <- forewings %>% #need same number coordinates
@@ -84,7 +85,7 @@ Figure 1 graphically represents the results of principal components analysis for
 
 Figure 2: 
 
-```{r comparative analysis prep, warning=FALSE, message=FALSE}
+```{r comparative analysis prep, message=FALSE, warning=FALSE}
 #remember question 1: do forewings and hindwings vary in their evolutionary rates?
   #can just evaluate the evolutionary rate of PC scores for the fore/hindwings using some method of choice
 #for question 2: do major groups of Lepidoptera vary in their hindwing and forewing evolvability?
